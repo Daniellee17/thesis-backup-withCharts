@@ -1,0 +1,3693 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>GrowSmart</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+
+
+  <!-- <link rel="stylesheet" href="{% static 'styles.css' %}"> -->
+
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <!-- Jquery for ajax calls -->
+  <script src="/assets/js/jquery-3.4.1.min.js"></script>
+
+  <!-- Alertify for confirmation prompts -->
+  <script src="/assets/alertify.js-0.3.11/lib/alertify.min.js"></script>
+  <link rel="stylesheet" href="/assets/alertify.js-0.3.11/themes//alertify.core.css" />
+  <link rel="stylesheet" href="/assets/alertify.js-0.3.11/themes/alertify.default.css" id="toggleCSS" />
+
+  <!-- Custom fonts for this template-->
+  <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="/assets/vendor/jquery/jquery.min.js"></script>
+  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="/assets/js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="/assets/vendor/datatables/jquery.dataTables.js"></script>
+  <script src="/assets/vendor/datatables/jquery.sensorsTable.js"></script>
+  <script src="/assets/vendor/datatables/dataTables.bootstrap4.js"></script>
+  <script src="/assets/vendor/datatables/sensorsTables.bootstrap4.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="/assets/js/demo/datatables-demo.js"></script>
+
+</head>
+
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #1cc88a">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'mainPage' %}">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i><img src="../assets/icons/rpiGif2.gif" class="singleContainer_icon" /></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">GrowSmart</div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+
+
+      {% block content %}
+      {% endblock %}
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+      <script>
+          var config = {
+        type: 'line',
+        data: {
+          datasets: [{
+            data: {{ data|safe }},
+            backgroundColor: [
+              '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+            ],
+            label: 'Population'
+          }],
+          labels: {{ labels|safe }}
+        },
+        options: {
+          responsive: true
+        }
+      };
+
+
+      // Set new default font family and font color to mimic Bootstrap's default styling
+      Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+      Chart.defaults.global.defaultFontColor = '#858796';
+
+      function number_format(number, decimals, dec_point, thousands_sep) {
+        // *     example: number_format(1234.56, 2, ',', ' ');
+        // *     return: '1 234,56'
+        number = (number + '').replace(',', '').replace(' ', '');
+        var n = !isFinite(+number) ? 0 : +number,
+          prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+          sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+          dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+          s = '',
+          toFixedFix = function(n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + Math.round(n * k) / k;
+          };
+        // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        if (s[0].length > 3) {
+          s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        }
+        if ((s[1] || '').length < prec) {
+          s[1] = s[1] || '';
+          s[1] += new Array(prec - s[1].length + 1).join('0');
+        }
+        return s.join(dec);
+      }
+
+      // Area Chart Example
+      var ctx = document.getElementById("myAreaChart");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1 6AM",
+            "Day1 10AM",
+            "Day1 2PM",
+            "Day1 6PM",
+            "Day1 10PM",
+            "Day1 2AM",
+            "Day2 6AM",
+            "Day2 10AM",
+            "Day2 2PM",
+            "Day2 6PM",
+            "Day2 10PM",
+            "Day2 2AM",
+            "Day3 6AM",
+            "Day3 10AM",
+            "Day3 2PM",
+            "Day3 6PM",
+            "Day3 10PM",
+            "Day3 2AM",
+            "Day4 6AM",
+            "Day4 10AM",
+            "Day4 2PM",
+            "Day4 6PM",
+            "Day4 10PM",
+            "Day4 2AM",
+            "Day5 6AM",
+            "Day5 10AM",
+            "Day5 2PM",
+            "Day5 6PM",
+            "Day5 10PM",
+            "Day5 2AM",
+            "Day6 6AM",
+            "Day6 10AM",
+            "Day6 2PM",
+            "Day6 6PM",
+            "Day6 10PM",
+            "Day6 2AM",
+            "Day7 6AM",
+            "Day7 10AM",
+            "Day7 2PM",
+            "Day7 6PM",
+            "Day7 10PM",
+            "Day7 2AM",
+            "Day8 6AM",
+            "Day8 10AM",
+            "Day8 2PM",
+            "Day8 6PM",
+            "Day8 10PM",
+            "Day8 2AM",
+            "Day9 6AM",
+            "Day9 10AM",
+            "Day9 2PM",
+            "Day9 6PM",
+            "Day9 10PM",
+            "Day9 2AM",
+            "Day10 6AM",
+            "Day10 10AM",
+            "Day10 2PM",
+            "Day10 6PM",
+            "Day10 10PM",
+            "Day10 2AM",
+            "Day11 6AM",
+            "Day11 10AM",
+            "Day11 2PM",
+            "Day11 6PM",
+            "Day11 10PM",
+            "Day11 2AM",
+            "Day12 6AM",
+            "Day12 10AM",
+            "Day12 2PM",
+            "Day12 6PM",
+            "Day12 10PM",
+            "Day12 2AM",
+            "Day13 6AM",
+            "Day13 10AM",
+            "Day13 2PM",
+            "Day13 6PM",
+            "Day13 10PM",
+            "Day13 2AM",
+            "Day14 6AM",
+            "Day14 10AM",
+            "Day14 2PM",
+            "Day14 6PM",
+            "Day14 10PM",
+            "Day14 2AM",
+          ],
+          datasets: [{
+            label: "Celsius",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#36b9cc",
+            pointRadius: 3,
+            pointBackgroundColor: "#36b9cc",
+            pointBorderColor: "#36b9cc",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "24.6", //6AM 08 31
+              "24 ", //10AM
+              "24 ", //2PM
+              "24.5 ", //6PM
+              "23.9 ", // 10Pm
+              "24.6 ", //2AM
+              "23.3 ", // 09 01
+              "24.4 ",
+              "25.2 ",
+              "23.9 ",
+              "23.6 ",
+              "23.7",
+              "24 ", // 09 02
+              "26.6 ",
+              "25.5 ",
+              "23.6 ",
+              "23.8 ",
+              "23.7 ",
+              "23.6 ", // 09 03
+              "26.5 ",
+              "27.4 ",
+              "27.4 ",
+              "27.8 ",
+              "24.1 ",
+              "28.6 ", /// 09 04
+              "27.4 ",
+              "26.6 ",
+              "25.2 ",
+              "26 ",
+              "27.8 ",
+              "24.1 ", // 09 05
+              "26.4 ",
+              "26.2 ",
+              "25.9 ",
+              "24 ",
+              "24.9 ",
+              "24.7 ", // 09 06
+              "24.9 ",
+              "26.4 ",
+              "24.8 ",
+              "24.6 ",
+              "24.2 ",
+              "23.3 ", // 09 07
+              "25.6 ",
+              "24.1 ",
+              "24.5 ",
+              "24.1 ",
+              "24.1 ",
+              "23.8 ", // 09 08
+              "24.7 ",
+              "24.3 ",
+              "23.8 ",
+              "24.2 ",
+              "23.8 ",
+              "24.8 ", // 09 09
+              "23.3 ",
+              "23.8 ",
+              "24.1 ",
+              "23.3 ",
+              "24.5 ",
+              "23.8 ", //09 10
+              "24.1 ",
+              "23.9 ",
+              "24.2 ",
+              "26.4 ",
+              "23.8 ",
+              "24.6 ", // 09 11
+              "25.4 ",
+              "23.8 ",
+              "24 ",
+              "25 ",
+              "25.2 ",
+              "24.1 ", // 09 12
+              "24.8 ",
+              "26 ",
+              "24.9 ",
+              "24.2 ",
+              "24 ",
+              "24.2 ", // 09 13
+              "24.8 ",
+              "24.1 ",
+              "24.2 ",
+              "24.5 ",
+              "24.1 ",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value) + " C";
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel) + " C";
+              }
+            }
+          }
+        }
+      });
+
+      var ctx = document.getElementById("myAreaChart_humidity");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1 6AM",
+            "Day1 10AM",
+            "Day1 2PM",
+            "Day1 6PM",
+            "Day1 10PM",
+            "Day1 2AM",
+            "Day2 6AM",
+            "Day2 10AM",
+            "Day2 2PM",
+            "Day2 6PM",
+            "Day2 10PM",
+            "Day2 2AM",
+            "Day3 6AM",
+            "Day3 10AM",
+            "Day3 2PM",
+            "Day3 6PM",
+            "Day3 10PM",
+            "Day3 2AM",
+            "Day4 6AM",
+            "Day4 10AM",
+            "Day4 2PM",
+            "Day4 6PM",
+            "Day4 10PM",
+            "Day4 2AM",
+            "Day5 6AM",
+            "Day5 10AM",
+            "Day5 2PM",
+            "Day5 6PM",
+            "Day5 10PM",
+            "Day5 2AM",
+            "Day6 6AM",
+            "Day6 10AM",
+            "Day6 2PM",
+            "Day6 6PM",
+            "Day6 10PM",
+            "Day6 2AM",
+            "Day7 6AM",
+            "Day7 10AM",
+            "Day7 2PM",
+            "Day7 6PM",
+            "Day7 10PM",
+            "Day7 2AM",
+            "Day8 6AM",
+            "Day8 10AM",
+            "Day8 2PM",
+            "Day8 6PM",
+            "Day8 10PM",
+            "Day8 2AM",
+            "Day9 6AM",
+            "Day9 10AM",
+            "Day9 2PM",
+            "Day9 6PM",
+            "Day9 10PM",
+            "Day9 2AM",
+            "Day10 6AM",
+            "Day10 10AM",
+            "Day10 2PM",
+            "Day10 6PM",
+            "Day10 10PM",
+            "Day10 2AM",
+            "Day11 6AM",
+            "Day11 10AM",
+            "Day11 2PM",
+            "Day11 6PM",
+            "Day11 10PM",
+            "Day11 2AM",
+            "Day12 6AM",
+            "Day12 10AM",
+            "Day12 2PM",
+            "Day12 6PM",
+            "Day12 10PM",
+            "Day12 2AM",
+            "Day13 6AM",
+            "Day13 10AM",
+            "Day13 2PM",
+            "Day13 6PM",
+            "Day13 10PM",
+            "Day13 2AM",
+            "Day14 6AM",
+            "Day14 10AM",
+            "Day14 2PM",
+            "Day14 6PM",
+            "Day14 10PM",
+            "Day14 2AM",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#f6c23e",
+            pointRadius: 3,
+            pointBackgroundColor: "#f6c23e",
+            pointBorderColor: "#f6c23e",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "61",
+              "62 ",
+              "61 ",
+              "63 ",
+              "64 ",
+              "60 ",
+              "65 ",
+              "64 ",
+              "66 ",
+              "65 ",
+              "61 ",
+              "63",
+              "65 ",
+              "59 ",
+              "62 ",
+              "58 ",
+              "58 ",
+              "64 ",
+              "60 ",
+              "59 ",
+              "59 ",
+              "58 ",
+              "60 ",
+              "57 ",
+              "59 ",
+              "61 ",
+              "56 ",
+              "58 ",
+              "59 ",
+              "63 ",
+              "60 ",
+              "59 ",
+              "59 ",
+              "59 ",
+              "57 ",
+              "61 ",
+              "62 ",
+              "59 ",
+              "56 ",
+              "61 ",
+              "62 ",
+              "59 ",
+              "62 ",
+              "59 ",
+              "55 ",
+              "53 ",
+              "54 ",
+              "63 ",
+              "57 ",
+              "54 ",
+              "54 ",
+              "59 ",
+              "60 ",
+              "54 ",
+              "64 ",
+              "63 ",
+              "60 ",
+              "60 ",
+              "59 ",
+              "62 ",
+              "66 ",
+              "60 ",
+              "59 ",
+              "59 ",
+              "59 ",
+              "63 ",
+              "61 ",
+              "60 ",
+              "61 ",
+              "61 ",
+              "63 ",
+              "60 ",
+              "59 ",
+              "59 ",
+              "58 ",
+              "57 ",
+              "60 ",
+              "58 ",
+              "59 ",
+              "60 ",
+              "63 ",
+              "62 ",
+              "62 ",
+              "60 ",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value) + " %";
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel) + " %";
+              }
+            }
+          }
+        }
+      });
+
+      var ctx = document.getElementById("myAreaChart_moisture");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1 6AM",
+            "Day1 10AM",
+            "Day1 2PM",
+            "Day1 6PM",
+            "Day1 10PM",
+            "Day1 2AM",
+            "Day2 6AM",
+            "Day2 10AM",
+            "Day2 2PM",
+            "Day2 6PM",
+            "Day2 10PM",
+            "Day2 2AM",
+            "Day3 6AM",
+            "Day3 10AM",
+            "Day3 2PM",
+            "Day3 6PM",
+            "Day3 10PM",
+            "Day3 2AM",
+            "Day4 6AM",
+            "Day4 10AM",
+            "Day4 2PM",
+            "Day4 6PM",
+            "Day4 10PM",
+            "Day4 2AM",
+            "Day5 6AM",
+            "Day5 10AM",
+            "Day5 2PM",
+            "Day5 6PM",
+            "Day5 10PM",
+            "Day5 2AM",
+            "Day6 6AM",
+            "Day6 10AM",
+            "Day6 2PM",
+            "Day6 6PM",
+            "Day6 10PM",
+            "Day6 2AM",
+            "Day7 6AM",
+            "Day7 10AM",
+            "Day7 2PM",
+            "Day7 6PM",
+            "Day7 10PM",
+            "Day7 2AM",
+            "Day8 6AM",
+            "Day8 10AM",
+            "Day8 2PM",
+            "Day8 6PM",
+            "Day8 10PM",
+            "Day8 2AM",
+            "Day9 6AM",
+            "Day9 10AM",
+            "Day9 2PM",
+            "Day9 6PM",
+            "Day9 10PM",
+            "Day9 2AM",
+            "Day10 6AM",
+            "Day10 10AM",
+            "Day10 2PM",
+            "Day10 6PM",
+            "Day10 10PM",
+            "Day10 2AM",
+            "Day11 6AM",
+            "Day11 10AM",
+            "Day11 2PM",
+            "Day11 6PM",
+            "Day11 10PM",
+            "Day11 2AM",
+            "Day12 6AM",
+            "Day12 10AM",
+            "Day12 2PM",
+            "Day12 6PM",
+            "Day12 10PM",
+            "Day12 2AM",
+            "Day13 6AM",
+            "Day13 10AM",
+            "Day13 2PM",
+            "Day13 6PM",
+            "Day13 10PM",
+            "Day13 2AM",
+            "Day14 6AM",
+            "Day14 10AM",
+            "Day14 2PM",
+            "Day14 6PM",
+            "Day14 10PM",
+            "Day14 2AM",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#e74a3b",
+            pointRadius: 3,
+            pointBackgroundColor: "#e74a3b",
+            pointBorderColor: "#e74a3b",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "53",
+              "45 ",
+              "81 ",
+              "70 ",
+              "63 ",
+              "54 ",
+              "51 ",
+              "47 ",
+              "81 ",
+              "72 ",
+              "68 ",
+              "56",
+              "57 ",
+              "45 ",
+              "83 ",
+              "72 ",
+              "64 ",
+              "64 ",
+              "51 ",
+              "37 ",
+              "80 ",
+              "74 ",
+              "67 ",
+              "57 ",
+              "52 ",
+              "38 ",
+              "85 ",
+              "71 ",
+              "64 ",
+              "59 ",
+              "57 ",
+              "45 ",
+              "75 ",
+              "69 ",
+              "63 ",
+              "62 ",
+              "49 ",
+              "40 ",
+              "80 ",
+              "68 ",
+              "61 ",
+              "55 ",
+              "47 ",
+              "42 ",
+              "79 ",
+              "73 ",
+              "67 ",
+              "55 ",
+              "53 ",
+              "41 ",
+              "80 ",
+              "70 ",
+              "61 ",
+              "60 ",
+              "49 ",
+              "45 ",
+              "84 ",
+              "72 ",
+              "65 ",
+              "54 ",
+              "51 ",
+              "39 ",
+              "84 ",
+              "75 ",
+              "67 ",
+              "57 ",
+              "53 ",
+              "42 ",
+              "82 ",
+              "75 ",
+              "68 ",
+              "60 ",
+              "52 ",
+              "45 ",
+              "78 ",
+              "70 ",
+              "65 ",
+              "59 ",
+              "50 ",
+              "43 ",
+              "81 ",
+              "75 ",
+              "69 ",
+              "58 ",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value) + " %";
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel) + " %";
+              }
+            }
+          }
+        }
+      });
+      var ctx = document.getElementById("myAreaChart_plant1");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1",
+            "Day2",
+            "Day3",
+            "Day4",
+            "Day5 ",
+            "Day6",
+            "Day7",
+            "Day8",
+            "Day9",
+            "Day10",
+            "Day11",
+            "Day12",
+            "Day13",
+            "Day14",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#1cc88a",
+            pointRadius: 3,
+            pointBackgroundColor: "#1cc88a",
+            pointBorderColor: "#1cc88a",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: {{ data_plant1|safe }},
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value) + " %";
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel);
+              }
+            }
+          }
+        }
+      });
+
+    </script>
+
+
+
+  </div>
+  <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; A.G.E 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+</body>
+
+<script>
+  setup()
+
+  function confirmFullReset() {
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'fullReset',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+
+        $('#labelMode').text("Mode: " + json.mode_json);
+        $('#labelGrid').text("Grid: " + json.grid_json);
+        $('#daysID').text("Day " + json.daysCounter_json);
+        $('#firstDayID').text("Day 1: " + json.startDate_json);
+
+        $('#labelCalibration').text(json.calibration_json);
+        $('#labelFans').text(json.fans_json);
+        $('#labelWhiteLed').text(json.whiteLed_json);
+        $('#labelRgbLed').text(json.rgbLed_json);
+        $('#labelWater').text(json.water_json);
+        $('#labelSeed').text(json.seeder_json);
+
+        $('#labelTemperature').text(json.temperature_json + " ° C");
+        $('#labelHumidity').text(json.humidity_json + " %");
+        $('#labelMoisture').text(json.soilMoisture_json + " %");
+        $('#labelTemperatureStatus').text("Status: " + json.temperatureStatus_json);
+        $('#labelHumidityStatus').text("Status: " + json.humidityStatus_json);
+        $('#labelSoilMoistureStatus').text("Status: " + json.soilMoistureStatus_json);
+
+        $('#cameraID').attr('src', json.image_json);
+
+
+        $('#growthContainer').remove()
+        $('#growthContainer_permanent').append('<div id="growthContainer">' +
+
+          '<div class="row">' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          //'<div class="card border-left-success shadow h-100 py-2" style="background: white;">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 1</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">0</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">Early</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src=../assets/icons/seedIcon.png class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">0</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">Early</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src=../assets/icons/seedIcon.png class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 3</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">0</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">Early</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src=../assets/icons/seedIcon.png class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 4</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">0</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">Early</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src=../assets/icons/seedIcon.png class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 5</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">0</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">Early</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src=../assets/icons/seedIcon.png class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 6</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">0</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">Early</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src=../assets/icons/seedIcon.png class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 7</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">0</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">Early</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src=../assets/icons/seedIcon.png class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 8</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">0</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">Early</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src=../assets/icons/seedIcon.png class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 9</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">0</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">Early</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src=../assets/icons/seedIcon.png class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 10</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">0</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">Early</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src=../assets/icons/seedIcon.png class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '</div>' +
+
+          '</div>')
+      },
+    });
+
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Database Cleared!");
+
+  }
+
+  function automaticRgbLed_on() {
+    var date1 = new Date();
+    if (date1.getHours() === 13 && date1.getMinutes() === 00) {
+      $.ajax({
+        type: 'POST',
+        url: '{% url "mainPage" %}',
+        data: {
+
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'onRgbLed',
+
+        },
+        success: function(json) {
+          document.getElementById("mainForm").reset();
+          $('#labelRgbLed').text('On');
+        },
+
+      });
+      alertify.custom = alertify.extend("custom");
+      alertify.custom("Grown Lights Activated");
+    }
+  }
+
+  function automaticRgbLed_off() {
+    var date1 = new Date();
+    if (date1.getHours() === 17 && date1.getMinutes() === 00) {
+      $.ajax({
+        type: 'POST',
+        url: '{% url "mainPage" %}',
+        data: {
+
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'offRgbLed',
+
+        },
+        success: function(json) {
+          document.getElementById("mainForm").reset();
+          $('#labelRgbLed').text('Off');
+        },
+
+      });
+      alertify.custom = alertify.extend("custom");
+      alertify.custom("Grown Lights Deactivated");
+    }
+  }
+
+
+  function automaticWhiteLed_on() {
+    var date1 = new Date();
+    if (date1.getHours() === 7 && date1.getMinutes() === 55) {
+      $.ajax({
+        type: 'POST',
+        url: '{% url "mainPage" %}',
+        data: {
+
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'onWhiteLed',
+
+        },
+        success: function(json) {
+          document.getElementById("mainForm").reset();
+          $('#labelWhiteLed').text('On');
+        },
+
+      });
+      alertify.custom = alertify.extend("custom");
+      alertify.custom("White Leds Activated");
+    }
+  }
+
+  function automaticWhiteLed_off() {
+    var date1 = new Date();
+    if (date1.getHours() === 8 && date1.getMinutes() === 05) {
+      $.ajax({
+        type: 'POST',
+        url: '{% url "mainPage" %}',
+        data: {
+
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'offWhiteLed',
+
+        },
+        success: function(json) {
+          document.getElementById("mainForm").reset();
+          $('#labelWhiteLed').text('Off');
+        },
+
+      });
+      alertify.custom = alertify.extend("custom");
+      alertify.custom("White Leds Deactivated");
+    }
+  }
+
+  function snapImage() {
+    var date1 = new Date();
+    if (date1.getHours() === 8 && date1.getMinutes() === 00) {
+      //Change getHours and getMinutes depending on platform used
+      //Rpi 24 hr format
+      //Ubuntu 12 hr format
+      //Windows 12 hr format
+      //alert(date1);
+      $.ajax({
+        type: 'POST',
+        url: '{% url "mainPage" %}',
+        data: {
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'snapImage',
+        },
+        success: function(json) {
+          $('#cameraID').attr('src', json.image_json);
+
+          $('#labelPlant1Growth').text(json.plant1_json);
+          $('#labelPlant2Growth').text(json.plant2_json);
+          $('#labelPlant3Growth').text(json.plant3_json);
+          $('#labelPlant4Growth').text(json.plant4_json);
+          $('#labelPlant5Growth').text(json.plant5_json);
+          $('#labelPlant6Growth').text(json.plant6_json);
+          $('#labelPlant7Growth').text(json.plant7_json);
+          $('#labelPlant8Growth').text(json.plant8_json);
+          $('#labelPlant9Growth').text(json.plant9_json);
+          $('#labelPlant10Growth').text(json.plant10_json);
+
+          $('#labelPlant1GrowthStatus').text(json.status1_json);
+          $('#labelPlant2GrowthStatus').text(json.status2_json);
+          $('#labelPlant3GrowthStatus').text(json.status3_json);
+          $('#labelPlant4GrowthStatus').text(json.status4_json);
+          $('#labelPlant5GrowthStatus').text(json.status5_json);
+          $('#labelPlant6GrowthStatus').text(json.status6_json);
+          $('#labelPlant7GrowthStatus').text(json.status7_json);
+          $('#labelPlant8GrowthStatus').text(json.status8_json);
+          $('#labelPlant9GrowthStatus').text(json.status9_json);
+          $('#labelPlant10GrowthStatus').text(json.status10_json);
+
+          $('#image1ID').attr('src', json.image1_json);
+          $('#image2ID').attr('src', json.image2_json);
+          $('#image3ID').attr('src', json.image3_json);
+          $('#image4ID').attr('src', json.image4_json);
+          $('#image5ID').attr('src', json.image5_json);
+          $('#image6ID').attr('src', json.image6_json);
+          $('#image7ID').attr('src', json.image7_json);
+          $('#image8ID').attr('src', json.image8_json);
+          $('#image9ID').attr('src', json.image9_json);
+          $('#image10ID').attr('src', json.image10_json);
+
+          $('#daysID').text("Day " + json.daysCounter_json);
+        },
+      });
+      alertify.custom = alertify.extend("custom");
+      alertify.custom("Vision System Activated");
+    }
+  }
+
+
+  function automaticIrrigation() {
+    var date1 = new Date();
+    if (date1.getHours() === 12 && date1.getMinutes() === 00) {
+      $('#labelWater').text('On');
+      $.ajax({
+        type: 'POST',
+        url: '{% url "mainPage" %}',
+        data: {
+
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'onWater',
+
+        },
+        success: function(json) {
+          document.getElementById("mainForm").reset();
+          $('#labelWater').text('Off');
+        },
+      });
+      alertify.custom = alertify.extend("custom");
+      alertify.custom("Irrigation System Activated");
+    }
+  }
+
+  function getSensorValues() {
+    var date1 = new Date();
+    if (date1.getMinutes() === 00) {
+      $.ajax({
+        type: 'POST',
+        url: '{% url "mainPage" %}',
+        data: {
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'getSensorValues',
+        },
+        success: function(json) {
+          document.getElementById("mainForm").reset();
+          $('#daysID').text("Day " + json.daysCounter_json);
+          $('#lastDayID').text('Age since: ' + json.date_json);
+          $('#labelTemperature').text(json.temperature_json + " ° C");
+          $('#labelHumidity').text(json.humidity_json + " %");
+          $('#labelMoisture').text(json.soilMoisture_json + " %");
+          $('#labelTemperatureStatus').text("Status: " + json.temperatureStatus_json);
+          $('#labelHumidityStatus').text("Status: " + json.humidityStatus_json);
+          $('#labelSoilMoistureStatus').text("Status: " + json.soilMoistureStatus_json);
+        },
+      });
+      alertify.custom = alertify.extend("custom");
+      alertify.custom("Sensor Values Updated");
+    }
+  }
+
+  $(document).ready(function() {
+    setInterval(automaticFunctions, 60000);
+  });
+
+  function automaticFunctions() {
+    automaticRgbLed_on();
+    automaticRgbLed_off();
+    automaticWhiteLed_on();
+    automaticWhiteLed_off();
+    snapImage();
+    automaticIrrigation();
+    getSensorValues();
+  }
+
+  $("#processImage").click(function(e) {
+    e.preventDefault();
+
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'snapImage',
+      },
+      success: function(json) {
+        $('#cameraID').attr('src', json.image_json);
+
+        $('#labelPlant1Growth').text(json.plant1_json);
+        $('#labelPlant2Growth').text(json.plant2_json);
+        $('#labelPlant3Growth').text(json.plant3_json);
+        $('#labelPlant4Growth').text(json.plant4_json);
+        $('#labelPlant5Growth').text(json.plant5_json);
+        $('#labelPlant6Growth').text(json.plant6_json);
+        $('#labelPlant7Growth').text(json.plant7_json);
+        $('#labelPlant8Growth').text(json.plant8_json);
+        $('#labelPlant9Growth').text(json.plant9_json);
+        $('#labelPlant10Growth').text(json.plant10_json);
+
+        $('#labelPlant1GrowthStatus').text(json.status1_json);
+        $('#labelPlant2GrowthStatus').text(json.status2_json);
+        $('#labelPlant3GrowthStatus').text(json.status3_json);
+        $('#labelPlant4GrowthStatus').text(json.status4_json);
+        $('#labelPlant5GrowthStatus').text(json.status5_json);
+        $('#labelPlant6GrowthStatus').text(json.status6_json);
+        $('#labelPlant7GrowthStatus').text(json.status7_json);
+        $('#labelPlant8GrowthStatus').text(json.status8_json);
+        $('#labelPlant9GrowthStatus').text(json.status9_json);
+        $('#labelPlant10GrowthStatus').text(json.status10_json);
+
+        $('#image1ID').attr('src', json.image1_json);
+        $('#image2ID').attr('src', json.image2_json);
+        $('#image3ID').attr('src', json.image3_json);
+        $('#image4ID').attr('src', json.image4_json);
+        $('#image5ID').attr('src', json.image5_json);
+        $('#image6ID').attr('src', json.image6_json);
+        $('#image7ID').attr('src', json.image7_json);
+        $('#image8ID').attr('src', json.image8_json);
+        $('#image9ID').attr('src', json.image9_json);
+        $('#image10ID').attr('src', json.image10_json);
+
+        $('#daysID').text("Day " + json.daysCounter_json);
+      },
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Vision System Activated");
+
+  });
+
+  $("#onFan").click(function(e) {
+
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'onFan',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#labelFans').text('On');
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Fans Activated");
+  });
+
+  $("#offFan").click(function(e) {
+
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'offFan',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#labelFans').text('Off');
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Fans Deactivated");
+  });
+
+  $("#onWhiteLed").click(function(e) {
+
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'onWhiteLed',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#labelWhiteLed').text('On');
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("White Leds Activated");
+  });
+
+  $("#offWhiteLed").click(function(e) {
+
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'offWhiteLed',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#labelWhiteLed').text('Off');
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("White Leds Deactivated");
+  });
+
+
+  $("#onRgbLed").click(function(e) {
+
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'onRgbLed',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#labelRgbLed').text('On');
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Grown Lights Activated");
+  });
+
+  $("#offRgbLed").click(function(e) {
+
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'offRgbLed',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#labelRgbLed').text('Off');
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Grow Lights Deactivated");
+  });
+
+  $("#onWater").click(function(e) {
+
+    e.preventDefault();
+    $('#labelWater').text('On');
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'onWater',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#labelWater').text('Off');
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Irrigation System Activated");
+  });
+
+  $("#onSeed").click(function(e) {
+
+    e.preventDefault();
+    $('#labelSeed').text('On');
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'onSeed',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#labelSeed').text('Off');
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Seeding System Activated");
+  });
+
+  $("#onCalibration").click(function(e) {
+
+    e.preventDefault();
+    $('#labelCalibration').text('On');
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'onCalibration',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#labelCalibration').text('Off');
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Calibration Activated");
+  });
+
+  $("#temperature_low_btn").click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "sensorsPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'temperature_low_set',
+        temperature_low_data: document.getElementById("temperature_low_input").value
+
+      },
+      success: function(json) {
+        document.getElementById("sensorsForm").reset();
+        $('#temperature_low_label').text("<= " + json.temperature_low + " ° C");
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Temperature low threshold updated");
+  });
+
+  $("#temperature_high_btn").click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "sensorsPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'temperature_high_set',
+        temperature_high_data: document.getElementById("temperature_high_input").value
+
+      },
+      success: function(json) {
+        document.getElementById("sensorsForm").reset();
+        $('#temperature_high_label').text(">= " + json.temperature_high + " ° C");
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Temperature high threshold updated");
+  });
+
+  $("#humidity_low_btn").click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "sensorsPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'humidity_low_set',
+        humidity_low_data: document.getElementById("humidity_low_input").value
+
+      },
+      success: function(json) {
+        document.getElementById("sensorsForm").reset();
+        $('#humidity_low_label').text("<= " + json.humidity_low + " %");
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Humidity low threshold updated");
+  });
+
+  $("#humidity_high_btn").click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "sensorsPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'humidity_high_set',
+        humidity_high_data: document.getElementById("humidity_high_input").value
+
+      },
+      success: function(json) {
+        document.getElementById("sensorsForm").reset();
+        $('#humidity_high_label').text(">= " + json.humidity_high + " %");
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Humidity high threshold updated");
+  });
+
+  $("#moisture_dry_btn").click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "sensorsPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'moisture_dry_set',
+        moisture_dry_data: document.getElementById("moisture_dry_input").value
+
+      },
+      success: function(json) {
+        document.getElementById("sensorsForm").reset();
+        $('#moisture_dry_label').text("<= " + json.moisture_dry + " %");
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Moisture dry threshold updated");
+  });
+
+  $("#moisture_wet_btn").click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "sensorsPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'moisture_wet_set',
+        moisture_wet_data: document.getElementById("moisture_wet_input").value
+
+      },
+      success: function(json) {
+        document.getElementById("sensorsForm").reset();
+        $('#moisture_wet_label').text(">= " + json.moisture_wet + " %");
+      },
+
+    });
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Moisture wet threshold updated");
+  });
+
+
+
+  $("#onMode1").click(function(e) {
+
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'onMode1',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#cameraID').attr('src', json.image_json);
+        $('#labelMode').text("Mode: " + json.mode_json);
+        $('#labelGrid').text("Grid: " + json.grid_json);
+        $('#growthContainer').remove()
+        $('#growthContainer_permanent').append('<div id="growthContainer">' +
+
+          '<div class="row">' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          //'<div class="card border-left-success shadow h-100 py-2" style="background: white;">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 1</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant1}}</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status1}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img id="image1ID" src={{mode1_vision_system_obj_global.image1}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+          '<div id="labelPlant2Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant2}}</div>' +
+          '<div id="labelPlant2GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status2}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img id="image2ID" src={{mode1_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 3</div>' +
+          '<div id="labelPlant3Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant3}}</div>' +
+          '<div id="labelPlant3GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status3}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img id="image3ID" src={{mode1_vision_system_obj_global.image3}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 4</div>' +
+          '<div id="labelPlant4Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant4}}</div>' +
+          '<div id="labelPlant4GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status4}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img id="image4ID" src={{mode1_vision_system_obj_global.image4}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 5</div>' +
+          '<div id="labelPlant5Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant5}}</div>' +
+          '<div id="labelPlant5GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status5}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img id="image5ID" src={{mode1_vision_system_obj_global.image5}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 6</div>' +
+          '<div id="labelPlant6Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant6}}</div>' +
+          '<div id="labelPlant6GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status6}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img id="image6ID" src={{mode1_vision_system_obj_global.image6}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 7</div>' +
+          '<div id="labelPlant7Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant7}}</div>' +
+          '<div id="labelPlant7GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status7}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img id="image7ID" src={{mode1_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 8</div>' +
+          '<div id="labelPlant8Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant8}}</div>' +
+          '<div id="labelPlant8GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status8}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img id="image8ID" src={{mode1_vision_system_obj_global.image8}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 9</div>' +
+          '<div id="labelPlant9Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant9}}</div>' +
+          '<div id="labelPlant9GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status9}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img id="image9ID" src={{mode1_vision_system_obj_global.image9}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 10</div>' +
+          '<div id="labelPlant10Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant10}}</div>' +
+          '<div id="labelPlant10GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status10}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img id="image10ID" src={{mode1_vision_system_obj_global.image10}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '</div>' +
+
+          '</div>')
+      },
+
+    });
+
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Mode 1 Activated");
+  });
+
+  $("#onMode2").click(function(e) {
+
+    e.preventDefault();
+
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'onMode2',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#cameraID').attr('src', json.image_json);
+        $('#labelMode').text("Mode: " + json.mode_json);
+        $('#labelGrid').text("Grid: " + json.grid_json);
+        $('#growthContainer').remove()
+        $('#growthContainer_permanent').append('<div id="growthContainer">' +
+
+          '<div class="row">' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          //'<div class="card border-left-success shadow h-100 py-2" style="background: white;">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 1</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant1}}</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status1}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode2_vision_system_obj_global.image1}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+          '<div id="labelPlant2Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant2}}</div>' +
+          '<div id="labelPlant2GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status2}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode2_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 3</div>' +
+          '<div id="labelPlant3Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant3}}</div>' +
+          '<div id="labelPlant3GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status3}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode2_vision_system_obj_global.image3}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 4</div>' +
+          '<div id="labelPlant4Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant4}}</div>' +
+          '<div id="labelPlant4GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status4}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode2_vision_system_obj_global.image4}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 5</div>' +
+          '<div id="labelPlant5Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant5}}</div>' +
+          '<div id="labelPlant5GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status5}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode2_vision_system_obj_global.image5}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 6</div>' +
+          '<div id="labelPlant6Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant6}}</div>' +
+          '<div id="labelPlant6GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status6}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode2_vision_system_obj_global.image6}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 7</div>' +
+          '<div id="labelPlant7Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant7}}</div>' +
+          '<div id="labelPlant7GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status7}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode2_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 8</div>' +
+          '<div id="labelPlant8Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant8}}</div>' +
+          '<div id="labelPlant8GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status8}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode2_vision_system_obj_global.image8}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '</div>' +
+
+          '</div>')
+      },
+
+    });
+
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Mode 2 Activated");
+  });
+
+  $("#onMode3").click(function(e) {
+
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'onMode3',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#cameraID').attr('src', json.image_json);
+        $('#labelMode').text("Mode: " + json.mode_json);
+        $('#labelGrid').text("Grid: " + json.grid_json);
+        $('#growthContainer').remove()
+        $('#growthContainer_permanent').append('<div id="growthContainer">' +
+
+          '<div class="row">' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant1}}</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status1}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image1}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+          '<div id="labelPlant2Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant2}}</div>' +
+          '<div id="labelPlant2GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status2}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 3</div>' +
+          '<div id="labelPlant3Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant3}}</div>' +
+          '<div id="labelPlant3GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status3}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image3}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 4</div>' +
+          '<div id="labelPlant4Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant4}}</div>' +
+          '<div id="labelPlant4GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status4}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image4}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 5</div>' +
+          '<div id="labelPlant5Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant5}}</div>' +
+          '<div id="labelPlant5GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status5}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image5}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 6</div>' +
+          '<div id="labelPlant6Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant6}}</div>' +
+          '<div id="labelPlant6GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status6}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image6}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 7</div>' +
+          '<div id="labelPlant7Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant7}}</div>' +
+          '<div id="labelPlant7GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status7}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image7}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 8</div>' +
+          '<div id="labelPlant8Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant8}}</div>' +
+          '<div id="labelPlant8GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status8}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image8}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 9</div>' +
+          '<div id="labelPlant9Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant9}}</div>' +
+          '<div id="labelPlant9GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status9}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image9}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 10</div>' +
+          '<div id="labelPlant10Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant10}}</div>' +
+          '<div id="labelPlant10GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status10}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image10}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 11</div>' +
+          '<div id="labelPlant11Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant11}}</div>' +
+          '<div id="labelPlant11GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status11}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image11}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 12</div>' +
+          '<div id="labelPlant12Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant12}}</div>' +
+          '<div id="labelPlant12GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status12}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image12}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 13</div>' +
+          '<div id="labelPlant13Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant13}}</div>' +
+          '<div id="labelPlant13GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status13}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image13}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 14</div>' +
+          '<div id="labelPlant14Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant14}}</div>' +
+          '<div id="labelPlant14GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status14}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image14}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 15</div>' +
+          '<div id="labelPlant15Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant15}}</div>' +
+          '<div id="labelPlant15GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status15}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image15}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 16</div>' +
+          '<div id="labelPlant16Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant16}}</div>' +
+          '<div id="labelPlant16GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status16}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image16}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 17</div>' +
+          '<div id="labelPlant17Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant17}}</div>' +
+          '<div id="labelPlant17GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status17}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image17}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-2 col-md-2 mb-2">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 18</div>' +
+          '<div id="labelPlant18Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant18}}</div>' +
+          '<div id="labelPlant18GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status18}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode3_vision_system_obj_global.image18}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '</div>' +
+
+          '</div>')
+      },
+
+    });
+
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Mode 3 Activated");
+  });
+
+  $("#onMode4").click(function(e) {
+
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'onMode4',
+
+      },
+      success: function(json) {
+        document.getElementById("mainForm").reset();
+        $('#cameraID').attr('src', json.image_json);
+        $('#labelMode').text("Mode: " + json.mode_json);
+        $('#labelGrid').text("Grid: " + json.grid_json);
+        $('#growthContainer').remove()
+        $('#growthContainer_permanent').append('<div id="growthContainer">' +
+
+          '<div class="row">' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          //'<div class="card border-left-success shadow h-100 py-2" style="background: white;">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 1</div>' +
+          '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant1}}</div>' +
+          '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status1}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image1}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+          '<div id="labelPlant2Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant2}}</div>' +
+          '<div id="labelPlant2GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status2}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 3</div>' +
+          '<div id="labelPlant3Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant3}}</div>' +
+          '<div id="labelPlant3GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status3}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image3}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 4</div>' +
+          '<div id="labelPlant4Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant4}}</div>' +
+          '<div id="labelPlant4GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status4}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image4}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 5</div>' +
+          '<div id="labelPlant5Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant5}}</div>' +
+          '<div id="labelPlant5GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status5}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image5}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 6</div>' +
+          '<div id="labelPlant6Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant6}}</div>' +
+          '<div id="labelPlant6GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status6}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image6}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 7</div>' +
+          '<div id="labelPlant7Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant7}}</div>' +
+          '<div id="labelPlant7GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status7}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 8</div>' +
+          '<div id="labelPlant8Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant8}}</div>' +
+          '<div id="labelPlant8GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status8}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image8}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 9</div>' +
+          '<div id="labelPlant9Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant9}}</div>' +
+          '<div id="labelPlant9GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status9}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image9}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 10</div>' +
+          '<div id="labelPlant10Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant10}}</div>' +
+          '<div id="labelPlant10GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status10}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image10}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 11</div>' +
+          '<div id="labelPlant10Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant11}}</div>' +
+          '<div id="labelPlant10GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status11}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image11}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '<div class="col-xl-3 col-md-3 mb-3">' +
+          '<div class="card shadow h-100 py-2" style="background: white;">' +
+          '<div class=" card-body">' +
+          '<div class="row no-gutters align-items-center">' +
+          '<div class="col mr-2">' +
+          '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 12</div>' +
+          '<div id="labelPlant10Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant12}}</div>' +
+          '<div id="labelPlant10GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status12}}</div>' +
+          '</div>' +
+          '<div class="col-auto">' +
+          '<i><img src={{mode4_vision_system_obj_global.image12}} class="singleContainer_icon" /></i>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+
+          '</div>' +
+
+          '</div>')
+      },
+
+    });
+
+    alertify.custom = alertify.extend("custom");
+    alertify.custom("Mode 4 Activated");
+  });
+
+  function setup() {
+    $.ajax({
+      type: 'POST',
+      url: '{% url "mainPage" %}',
+      data: {
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'setup',
+      },
+      success: function(json) {
+        if (json.modeNumber === 1) {
+          $('#growthContainer').remove()
+          $('#growthContainer_permanent').append('<div id="growthContainer">' +
+
+            '<div class="row">' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            //'<div class="card border-left-success shadow h-100 py-2" style="background: white;">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 1</div>' +
+            '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant1}}</div>' +
+            '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status1}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img id="image1ID" src={{mode1_vision_system_obj_global.image1}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+            '<div id="labelPlant2Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant2}}</div>' +
+            '<div id="labelPlant2GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status2}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img id="image2ID" src={{mode1_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 3</div>' +
+            '<div id="labelPlant3Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant3}}</div>' +
+            '<div id="labelPlant3GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status3}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img id="image3ID" src={{mode1_vision_system_obj_global.image3}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 4</div>' +
+            '<div id="labelPlant4Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant4}}</div>' +
+            '<div id="labelPlant4GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status4}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img id="image4ID" src={{mode1_vision_system_obj_global.image4}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 5</div>' +
+            '<div id="labelPlant5Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant5}}</div>' +
+            '<div id="labelPlant5GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status5}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img id="image5ID" src={{mode1_vision_system_obj_global.image5}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 6</div>' +
+            '<div id="labelPlant6Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant6}}</div>' +
+            '<div id="labelPlant6GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status6}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img id="image6ID" src={{mode1_vision_system_obj_global.image6}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 7</div>' +
+            '<div id="labelPlant7Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant7}}</div>' +
+            '<div id="labelPlant7GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status7}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img id="image7ID" src={{mode1_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 8</div>' +
+            '<div id="labelPlant8Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant8}}</div>' +
+            '<div id="labelPlant8GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status8}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img id="image8ID" src={{mode1_vision_system_obj_global.image8}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 9</div>' +
+            '<div id="labelPlant9Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant9}}</div>' +
+            '<div id="labelPlant9GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status9}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img id="image9ID" src={{mode1_vision_system_obj_global.image9}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 10</div>' +
+            '<div id="labelPlant10Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode1_vision_system_obj_global.plant10}}</div>' +
+            '<div id="labelPlant10GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode1_vision_system_obj_global.status10}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img id="image10ID" src={{mode1_vision_system_obj_global.image10}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '</div>' +
+
+            '</div>')
+        } else if (json.modeNumber === 2) {
+          $('#growthContainer').remove()
+          $('#growthContainer_permanent').append('<div id="growthContainer">' +
+
+            '<div class="row">' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            //'<div class="card border-left-success shadow h-100 py-2" style="background: white;">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 1</div>' +
+            '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant1}}</div>' +
+            '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status1}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode2_vision_system_obj_global.image1}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+            '<div id="labelPlant2Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant2}}</div>' +
+            '<div id="labelPlant2GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status2}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode2_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 3</div>' +
+            '<div id="labelPlant3Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant3}}</div>' +
+            '<div id="labelPlant3GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status3}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode2_vision_system_obj_global.image3}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 4</div>' +
+            '<div id="labelPlant4Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant4}}</div>' +
+            '<div id="labelPlant4GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status4}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode2_vision_system_obj_global.image4}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 5</div>' +
+            '<div id="labelPlant5Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant5}}</div>' +
+            '<div id="labelPlant5GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status5}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode2_vision_system_obj_global.image5}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 6</div>' +
+            '<div id="labelPlant6Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant6}}</div>' +
+            '<div id="labelPlant6GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status6}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode2_vision_system_obj_global.image6}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 7</div>' +
+            '<div id="labelPlant7Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant7}}</div>' +
+            '<div id="labelPlant7GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status7}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode2_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 8</div>' +
+            '<div id="labelPlant8Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode2_vision_system_obj_global.plant8}}</div>' +
+            '<div id="labelPlant8GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode2_vision_system_obj_global.status8}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode2_vision_system_obj_global.image8}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '</div>' +
+
+            '</div>')
+        } else if (json.modeNumber === 3) {
+          $('#growthContainer').remove()
+          $('#growthContainer_permanent').append('<div id="growthContainer">' +
+
+            '<div class="row">' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+            '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant1}}</div>' +
+            '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status1}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image1}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+            '<div id="labelPlant2Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant2}}</div>' +
+            '<div id="labelPlant2GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status2}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 3</div>' +
+            '<div id="labelPlant3Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant3}}</div>' +
+            '<div id="labelPlant3GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status3}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image3}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 4</div>' +
+            '<div id="labelPlant4Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant4}}</div>' +
+            '<div id="labelPlant4GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status4}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image4}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 5</div>' +
+            '<div id="labelPlant5Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant5}}</div>' +
+            '<div id="labelPlant5GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status5}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image5}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 6</div>' +
+            '<div id="labelPlant6Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant6}}</div>' +
+            '<div id="labelPlant6GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status6}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image6}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 7</div>' +
+            '<div id="labelPlant7Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant7}}</div>' +
+            '<div id="labelPlant7GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status7}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image7}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 8</div>' +
+            '<div id="labelPlant8Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant8}}</div>' +
+            '<div id="labelPlant8GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status8}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image8}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 9</div>' +
+            '<div id="labelPlant9Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant9}}</div>' +
+            '<div id="labelPlant9GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status9}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image9}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 10</div>' +
+            '<div id="labelPlant10Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant10}}</div>' +
+            '<div id="labelPlant10GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status10}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image10}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 11</div>' +
+            '<div id="labelPlant11Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant11}}</div>' +
+            '<div id="labelPlant11GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status11}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image11}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 12</div>' +
+            '<div id="labelPlant12Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant12}}</div>' +
+            '<div id="labelPlant12GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status12}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image12}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 13</div>' +
+            '<div id="labelPlant13Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant13}}</div>' +
+            '<div id="labelPlant13GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status13}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image13}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 14</div>' +
+            '<div id="labelPlant14Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant14}}</div>' +
+            '<div id="labelPlant14GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status14}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image14}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 15</div>' +
+            '<div id="labelPlant15Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant15}}</div>' +
+            '<div id="labelPlant15GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status15}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image15}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 16</div>' +
+            '<div id="labelPlant16Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant16}}</div>' +
+            '<div id="labelPlant16GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status16}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image16}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 17</div>' +
+            '<div id="labelPlant17Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant17}}</div>' +
+            '<div id="labelPlant17GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status17}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image17}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-2 col-md-2 mb-2">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 18</div>' +
+            '<div id="labelPlant18Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode3_vision_system_obj_global.plant18}}</div>' +
+            '<div id="labelPlant18GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode3_vision_system_obj_global.status18}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode3_vision_system_obj_global.image18}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '</div>' +
+
+            '</div>')
+        } else if (json.modeNumber === 4) {
+          $('#growthContainer').remove()
+          $('#growthContainer_permanent').append('<div id="growthContainer">' +
+
+
+            '<div class="row">' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            //'<div class="card border-left-success shadow h-100 py-2" style="background: white;">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 1</div>' +
+            '<div id="labelPlant1Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant1}}</div>' +
+            '<div id="labelPlant1GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status1}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image1}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 2</div>' +
+            '<div id="labelPlant2Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant2}}</div>' +
+            '<div id="labelPlant2GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status2}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 3</div>' +
+            '<div id="labelPlant3Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant3}}</div>' +
+            '<div id="labelPlant3GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status3}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image3}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 4</div>' +
+            '<div id="labelPlant4Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant4}}</div>' +
+            '<div id="labelPlant4GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status4}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image4}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 5</div>' +
+            '<div id="labelPlant5Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant5}}</div>' +
+            '<div id="labelPlant5GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status5}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image5}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 6</div>' +
+            '<div id="labelPlant6Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant6}}</div>' +
+            '<div id="labelPlant6GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status6}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image6}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 7</div>' +
+            '<div id="labelPlant7Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant7}}</div>' +
+            '<div id="labelPlant7GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status7}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image2}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 8</div>' +
+            '<div id="labelPlant8Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant8}}</div>' +
+            '<div id="labelPlant8GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status8}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image8}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 9</div>' +
+            '<div id="labelPlant9Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant9}}</div>' +
+            '<div id="labelPlant9GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status9}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image9}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 10</div>' +
+            '<div id="labelPlant10Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant10}}</div>' +
+            '<div id="labelPlant10GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status10}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image10}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 11</div>' +
+            '<div id="labelPlant10Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant11}}</div>' +
+            '<div id="labelPlant10GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status11}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image11}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="col-xl-3 col-md-3 mb-3">' +
+            '<div class="card shadow h-100 py-2" style="background: white;">' +
+            '<div class=" card-body">' +
+            '<div class="row no-gutters align-items-center">' +
+            '<div class="col mr-2">' +
+            '<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Plant 12</div>' +
+            '<div id="labelPlant10Growth" class="h5 mb-0 font-weight-bold text-gray-800">{{mode4_vision_system_obj_global.plant12}}</div>' +
+            '<div id="labelPlant10GrowthStatus" class="text-s mb-0 font-weight-normal text-gray-800">{{mode4_vision_system_obj_global.status12}}</div>' +
+            '</div>' +
+            '<div class="col-auto">' +
+            '<i><img src={{mode4_vision_system_obj_global.image12}} class="singleContainer_icon" /></i>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+
+            '</div>' +
+
+            '</div>')
+        }
+      },
+    });
+  }
+</script>
+
+</html>

@@ -1,0 +1,271 @@
+{% extends 'baseLayout.html' %}
+
+{% block content %}
+
+
+<!-- Nav Item - Dashboard      -->
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'mainPage' %}">
+    <i class="fas fa-fw fa-tachometer-alt"></i>
+    <span>Dashboard</span></a>
+</li>
+<li class="nav-item active">
+  <a class="nav-link" href="{% url 'databasePage' %}">
+    <i class="fas fa-fw fa-chart-area"></i>
+    <span>Database</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'sensorsPage' %}">
+    <i class="fas fa-fw fa-chart-area"></i>
+    <span>Sensors</span>
+  </a>
+</li>
+
+<!-- Divider -->
+<hr class="sidebar-divider d-none d-md-block">
+
+
+</ul>
+<!-- End of Sidebar -->
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- Topbar -->
+    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+
+
+      <!-- Topbar Navbar -->
+      <ul class="navbar-nav ml-auto">
+      </ul>
+
+    </nav>
+
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Database</h1>
+      <p class="mb-4">Monitor your progress through GrowSmart's Database</a>.</p>
+
+      <form method='GET' id="databaseForm">
+        {% csrf_token %}
+
+        <!--Devices Table-->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Devices Table</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" style="overflow-x: hidden">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>
+                      <font size="2">Date&Time</font>
+                    </th>
+                    <th>
+                      <font size="2">Fans</font>
+                    </th>
+                    <th>
+                      <font size="2">W.LED</font>
+                    </th>
+                    <th>
+                      <font size="2">G.Lights</font>
+                    </th>
+                    <th>
+                      <font size="2">Irrigation</font>
+                    </th>
+                    <th>
+                      <font size="2">Calibration</font>
+                    </th>
+                    <th>
+                      <font size="2">Seeding</font>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for values in devices_obj_global %}
+                  <tr>
+                    <td>
+                      <font size="2">{{values.date}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.fansStatus}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.whiteLedStatus}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.rgbLedStatus}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.waterStatus}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.calibrationStatus}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.seedStatus}}</font>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--Sensors Table-->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Sensors Table</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" style="overflow-x: hidden">
+              <table class="table table-bordered" id="sensorsTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>
+                      <font size="2">Date&Time
+                    </th>
+                    <th>
+                      <font size="2">Temperature
+                    </th>
+                    <th>
+                      <font size="2">
+                    </th>
+                    <th>
+                      <font size="2">Humidity
+                    </th>
+                    <th>
+                      <font size="2">
+                    </th>
+                    <th>
+                      <font size="2">S.M.
+                    </th>
+                    <th>
+                      <font size="2">
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for values in sensors_obj_global %}
+                  <tr>
+                    <td>
+                      <font size="2">{{values.date}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.temperature}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.temperatureStatus}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.humidity}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.humidityStatus}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.moisture}}</font>
+                    </td>
+                    <td>
+                      <font size="2">{{values.soilMoistureStatus}}</font>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-xl-6 col-lg-7">
+
+            <!-- Area Chart -->
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold" style="color: #36b9cc">Temperature</h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="myAreaChart"></canvas>
+                </div>
+
+              </div>
+            </div>
+
+
+
+          </div>
+          <div class="col-xl-6 col-lg-7">
+
+            <!-- Area Chart -->
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold" style="color: #f6c23e">Humidity</h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="myAreaChart_humidity"></canvas>
+                </div>
+
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-xl-6 col-lg-7">
+
+            <!-- Area Chart -->
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold" style="color: #e74a3b">Soil Moisture</h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="myAreaChart_moisture"></canvas>
+                </div>
+
+              </div>
+            </div>
+
+
+
+          </div>
+          <div class="col-xl-6 col-lg-7">
+
+            <!-- Area Chart -->
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Plant 1</h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="myAreaChart_plant1"></canvas>
+                </div>
+
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+
+      </form>
+
+      {% endblock %}
