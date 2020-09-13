@@ -936,7 +936,22 @@
             pointHoverBorderColor: "rgba(78, 115, 223, 1)",
             pointHitRadius: 10,
             pointBorderWidth: 2,
-            data: {{ data_plant1|safe }},
+            data: [
+              "0",
+              "0",
+              "124",
+              "148",
+              "206",
+              "296",
+              "302",
+              "425",
+              "568",
+              "599",
+              "641",
+              "669",
+              "716",
+              "826",
+            ],
           }],
         },
         options: {
@@ -968,7 +983,7 @@
                 padding: 10,
                 // Include a dollar sign in the ticks
                 callback: function(value, index, values) {
-                  return number_format(value) + " %";
+                  return number_format(value);
                 }
               },
               gridLines: {
@@ -1006,7 +1021,1068 @@
           }
         }
       });
-
+      var ctx = document.getElementById("myAreaChart_plant2");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1",
+            "Day2",
+            "Day3",
+            "Day4",
+            "Day5 ",
+            "Day6",
+            "Day7",
+            "Day8",
+            "Day9",
+            "Day10",
+            "Day11",
+            "Day12",
+            "Day13",
+            "Day14",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#1cc88a",
+            pointRadius: 3,
+            pointBackgroundColor: "#1cc88a",
+            pointBorderColor: "#1cc88a",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "0",
+              "0",
+              "48",
+              "97",
+              "176",
+              "180",
+              "241",
+              "341",
+              "482",
+              "502",
+              "536",
+              "621",
+              "733",
+              "736",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value);
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel);
+              }
+            }
+          }
+        }
+      });
+      var ctx = document.getElementById("myAreaChart_plant3");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1",
+            "Day2",
+            "Day3",
+            "Day4",
+            "Day5 ",
+            "Day6",
+            "Day7",
+            "Day8",
+            "Day9",
+            "Day10",
+            "Day11",
+            "Day12",
+            "Day13",
+            "Day14",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#1cc88a",
+            pointRadius: 3,
+            pointBackgroundColor: "#1cc88a",
+            pointBorderColor: "#1cc88a",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "0",
+              "0",
+              "37",
+              "116",
+              "300",
+              "443",
+              "503",
+              "544",
+              "603",
+              "721",
+              "802",
+              "873",
+              "997",
+              "1108",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value);
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel);
+              }
+            }
+          }
+        }
+      });
+      var ctx = document.getElementById("myAreaChart_plant4");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1",
+            "Day2",
+            "Day3",
+            "Day4",
+            "Day5 ",
+            "Day6",
+            "Day7",
+            "Day8",
+            "Day9",
+            "Day10",
+            "Day11",
+            "Day12",
+            "Day13",
+            "Day14",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#1cc88a",
+            pointRadius: 3,
+            pointBackgroundColor: "#1cc88a",
+            pointBorderColor: "#1cc88a",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "0",
+              "0",
+              "107",
+              "181",
+              "230",
+              "370",
+              "488",
+              "528",
+              "560",
+              "675",
+              "704",
+              "770",
+              "874",
+              "906",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value);
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel);
+              }
+            }
+          }
+        }
+      });
+      var ctx = document.getElementById("myAreaChart_plant5");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1",
+            "Day2",
+            "Day3",
+            "Day4",
+            "Day5 ",
+            "Day6",
+            "Day7",
+            "Day8",
+            "Day9",
+            "Day10",
+            "Day11",
+            "Day12",
+            "Day13",
+            "Day14",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#1cc88a",
+            pointRadius: 3,
+            pointBackgroundColor: "#1cc88a",
+            pointBorderColor: "#1cc88a",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "0",
+              "0",
+              "97",
+              "167",
+              "233",
+              "251",
+              "299",
+              "302",
+              "334",
+              "435",
+              "526",
+              "604",
+              "635",
+              "748",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value);
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel);
+              }
+            }
+          }
+        }
+      });
+      var ctx = document.getElementById("myAreaChart_plant6");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1",
+            "Day2",
+            "Day3",
+            "Day4",
+            "Day5 ",
+            "Day6",
+            "Day7",
+            "Day8",
+            "Day9",
+            "Day10",
+            "Day11",
+            "Day12",
+            "Day13",
+            "Day14",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#1cc88a",
+            pointRadius: 3,
+            pointBackgroundColor: "#1cc88a",
+            pointBorderColor: "#1cc88a",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "0",
+              "0",
+              "51",
+              "143",
+              "251",
+              "344",
+              "356",
+              "462",
+              "474",
+              "538",
+              "602",
+              "617",
+              "730",
+              "804",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value);
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel);
+              }
+            }
+          }
+        }
+      });
+      var ctx = document.getElementById("myAreaChart_plant7");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1",
+            "Day2",
+            "Day3",
+            "Day4",
+            "Day5 ",
+            "Day6",
+            "Day7",
+            "Day8",
+            "Day9",
+            "Day10",
+            "Day11",
+            "Day12",
+            "Day13",
+            "Day14",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#1cc88a",
+            pointRadius: 3,
+            pointBackgroundColor: "#1cc88a",
+            pointBorderColor: "#1cc88a",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "0",
+              "0",
+              "158",
+              "237",
+              "307",
+              "364",
+              "405",
+              "482",
+              "549",
+              "603",
+              "664",
+              "721",
+              "779",
+              "806",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value);
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel);
+              }
+            }
+          }
+        }
+      });
+      var ctx = document.getElementById("myAreaChart_plant8");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1",
+            "Day2",
+            "Day3",
+            "Day4",
+            "Day5 ",
+            "Day6",
+            "Day7",
+            "Day8",
+            "Day9",
+            "Day10",
+            "Day11",
+            "Day12",
+            "Day13",
+            "Day14",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#1cc88a",
+            pointRadius: 3,
+            pointBackgroundColor: "#1cc88a",
+            pointBorderColor: "#1cc88a",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "0",
+              "0",
+              "39",
+              "119",
+              "296",
+              "320",
+              "356",
+              "389",
+              "456",
+              "468",
+              "517",
+              "632",
+              "664",
+              "798",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value);
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel);
+              }
+            }
+          }
+        }
+      });
+      var ctx = document.getElementById("myAreaChart_plant9");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1",
+            "Day2",
+            "Day3",
+            "Day4",
+            "Day5 ",
+            "Day6",
+            "Day7",
+            "Day8",
+            "Day9",
+            "Day10",
+            "Day11",
+            "Day12",
+            "Day13",
+            "Day14",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#1cc88a",
+            pointRadius: 3,
+            pointBackgroundColor: "#1cc88a",
+            pointBorderColor: "#1cc88a",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "0",
+              "0",
+              "96",
+              "137",
+              "321",
+              "430",
+              "478",
+              "491",
+              "518",
+              "649",
+              "782",
+              "848",
+              "901",
+              "1088",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value);
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel);
+              }
+            }
+          }
+        }
+      });
+      var ctx = document.getElementById("myAreaChart_plant10");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            "Day1",
+            "Day2",
+            "Day3",
+            "Day4",
+            "Day5 ",
+            "Day6",
+            "Day7",
+            "Day8",
+            "Day9",
+            "Day10",
+            "Day11",
+            "Day12",
+            "Day13",
+            "Day14",
+          ],
+          datasets: [{
+            label: "Percent",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "#1cc88a",
+            pointRadius: 3,
+            pointBackgroundColor: "#1cc88a",
+            pointBorderColor: "#1cc88a",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [
+              "0",
+              "0",
+              "115",
+              "261",
+              "401",
+              "499",
+              "503",
+              "564",
+              "692",
+              "700",
+              "734",
+              "888",
+              "927",
+              "951",
+            ],
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'date'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 7
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return number_format(value);
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return number_format(tooltipItem.yLabel);
+              }
+            }
+          }
+        }
+      });
     </script>
 
 

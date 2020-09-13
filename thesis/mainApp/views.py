@@ -1125,6 +1125,15 @@ def databasePage(response):
     data_humidity = []
     data_moisture = []
     data_plant1 = []
+    data_plant2 = []
+    data_plant3 = []
+    data_plant4 = []
+    data_plant5 = []
+    data_plant6 = []
+    data_plant7 = []
+    data_plant8 = []
+    data_plant9 = []
+    data_plant10 = []
 
     queryset = sensors.objects.all()
     for a in queryset:
@@ -1135,6 +1144,15 @@ def databasePage(response):
     queryset1 = mode1_vision_system.objects.all()
     for a in queryset1:
         data_plant1.append(a.plant1)
+        data_plant2.append(a.plant2)
+        data_plant3.append(a.plant3)
+        data_plant4.append(a.plant4)
+        data_plant5.append(a.plant5)
+        data_plant6.append(a.plant6)
+        data_plant7.append(a.plant7)
+        data_plant8.append(a.plant8)
+        data_plant9.append(a.plant9)
+        data_plant10.append(a.plant10)
 
     devices_obj_global = devices.objects.all()
     sensors_obj_global = sensors.objects.all()
@@ -1142,8 +1160,28 @@ def databasePage(response):
     mode_selected_obj_global = mode_selected.objects.all()
     mode_selected_obj_global_2 = mode_selected.objects.latest('date')
 
-    myObj = {'labels': labels,'data': data,'data_humidity': data_humidity, 'data_moisture': data_moisture,'data_plant1': data_plant1, 'data': data,'mode_selected_obj_global': mode_selected_obj_global, 'mode_selected_obj_global_2': mode_selected_obj_global_2, 'devices_obj_global': devices_obj_global,
-                'sensors_obj_global': sensors_obj_global, 'mode1_vision_system_obj_global': mode1_vision_system_obj_global}
+    myObj = {
+    'labels': labels,
+    'data': data,
+    'data_humidity': data_humidity,
+    'data_moisture': data_moisture,
+    'data_plant1': data_plant1,
+    'data_plant2': data_plant2,
+    'data_plant3': data_plant3,
+    'data_plant4': data_plant4,
+    'data_plant5': data_plant5,
+    'data_plant6': data_plant6,
+    'data_plant7': data_plant7,
+    'data_plant8': data_plant8,
+    'data_plant9': data_plant9,
+    'data_plant10': data_plant10,
+    'data': data,
+    'mode_selected_obj_global': mode_selected_obj_global,
+    'mode_selected_obj_global_2': mode_selected_obj_global_2,
+    'devices_obj_global': devices_obj_global,
+    'sensors_obj_global': sensors_obj_global,
+    'mode1_vision_system_obj_global': mode1_vision_system_obj_global
+    }
 
     return render(response, 'database.html', context=myObj)
 
